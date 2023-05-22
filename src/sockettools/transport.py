@@ -1,12 +1,11 @@
 import queue as _queue
 import threading as _threading
-from .client import ClientHandler
 from .events import _events
 from .protocol import CONTINUE
 
 class _transport:
     def __init__(self, handler) -> None:
-        self.handler : ClientHandler = handler
+        self.handler = handler
         self.ingoing = _queue.Queue()
         self.outgoing = _queue.Queue()
     
