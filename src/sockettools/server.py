@@ -40,11 +40,13 @@ class Server:
             p += _random.choice(alf)
         return p
     
-    def _handle(self, conn, addr, handler):
+    def _handle(self, conn, addr, handler, hid):
         try:
             handler.serve()
         except Exception as e:
             handler.event._fire(_events.EXCEPTION, e)
+            if handler.event.registered.get(_events.EXCEPTION, []) == []:
+                raise
 
     def _serve_forever(self, host, port, stop_event=None):
         '''Internal. Does not perform prerun check'''
@@ -60,7 +62,7 @@ class Server:
                     handler_id = self._generate_hid()
                     if handler_id not in self.handlers.keys():
                         break
-                thread = _threading.Thread(target=self._handle, name=handler_id, args=(connection, addr, new_handler))
+                thread = _threading.Thread(target=self._handle, name=handler_id, args=(connection, addr, new_handler, handler_id))
                 self.handlers[handler_id] = _active_handler(new_handler, thread)
                 thread.start()
             except BlockingIOError:
