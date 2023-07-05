@@ -22,9 +22,9 @@ py -m pip install sockettools=[version]
 ## Quickstart
 server.py:
 ```python
-import network
+import sockettools
 
-class TransferProtocol(network.Protocol):
+class TransferProtocol(sockettools.Protocol):
     @classmethod
     def encode(cls, data):
         # This function gets data that the program wants to send and encodes it to bytearray or bytes to send to socket
@@ -34,10 +34,10 @@ class TransferProtocol(network.Protocol):
     def decode(cls, data : bytearray):
         # This function is called every tome some data is recieved
         # returns CONTINUE if data should be continued to be recieved and data param is continued to be built up
-        # If the function returns data: data param is reset and resu't is returned
+        # If the function returns data: data param is reset and result is returned
         return data
 
-class ClientHandler(network.ClientHandler):
+class ClientHandler(sockettools.ClientHandler):
     protocol = TransferProtocol # This protocol only allows sending and recieving binary data
     def __init__(self, conn, addr, server):
         # This function is called it the main thread when a client connects
@@ -53,15 +53,15 @@ class ClientHandler(network.ClientHandler):
     def on_recieved(self, data):
         self.transport.send(data)
 
-echo_server = network.Server(host="0.0.0.0", port=8085, handler=ClientHandler)
+echo_server = sockettools.Server(host="0.0.0.0", port=8085, handler=ClientHandler)
 echo_server.run()
 ```
 client.py:
 ```python
-import network
+import sockettools
 class TransferProtocol(same as in server.py)
 
-class Client(network.Client):
+class Client(sockettools.Client):
     protocol = TransferProtocol
     # Same as ClientHandler
     def serve():
