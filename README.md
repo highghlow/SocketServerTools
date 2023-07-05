@@ -1,23 +1,9 @@
 # Socket Server Tools
 Use sockets easily
 ## Installation
-To install the latest version run
-Unix/macOS:
+To install the latest version run:
 ```
 python3 -m pip install sockettools
-```
-Windows:
-```
-py -m pip install sockettools
-```
-To install a specified release run
-Unix/maxOS
-```
-python3 -m pip install sockettools=[version]
-```
-Windows:
-```
-py -m pip install sockettools=[version]
 ```
 ## Quickstart
 server.py:
